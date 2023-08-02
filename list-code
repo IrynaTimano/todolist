@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #todo-container {
+      text-align: center;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    #task-input {
+      font-size: 18px;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .task-item {
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .task-item button {
+      cursor: pointer;
+      background-color: #1e90ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+    .task-item.completed {
+      text-decoration: line-through;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div id="todo-container">
+    <input type="text" id="task-input" placeholder="Enter a task">
+    <button id="add-task-button">Add Task</button>
+    <div id="task-list"></div>
+  </div>
+
+  <script>
+    const taskList = document.getElementById("task-list");
+
+    function createTaskElement(task, completed) {
+      const taskItem = document.createElement("div");
+      taskItem.className = `task-item ${completed ? "completed" : ""}`;
+
+      const taskText = document.createElement("span");
+      taskText.textContent = task;
+
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+      removeButton.addEventListener("click", () => {
+        taskItem.remove();
+      });
+
+      const completeButton = document.createElement("button");
+      completeButton.textContent = "Complete";
+      completeButton.addEventListener("click", () => {
+        taskItem.classList.toggle("completed");
+      });
+
+      taskItem.appendChild(taskText);
+      taskItem.appendChild(removeButton);
+      taskItem.appendChild(completeButton);
+
+      return taskItem;
+    }
+
+    document.getElementById("add-task-button").addEventListener("click", () => {
+      const taskInput = document.getElementById("task-input");
+      const taskText = taskInput.value.trim();
+      if (taskText) {
+        const taskElement = createTaskElement(taskText, false);
+        taskList.appendChild(taskElement);
+        taskInput.value = "";
+      }
+    });
+
+    // Create a few example tasks on page load
+    const exampleTasks = ["Buy groceries", "Finish homework", "Read a book"];
+    exampleTasks.forEach(taskText => {
+      const taskElement = createTaskElement(taskText, false);
+      taskList.appendChild(taskElement);
+    });
+  </script>
+</body>
+</html>
